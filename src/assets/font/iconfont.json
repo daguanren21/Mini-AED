@@ -1,0 +1,30 @@
+{
+  "id": "4141965",
+  "name": "miniAed",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "77111",
+      "name": "问题反馈",
+      "font_class": "wentifankui",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6851521",
+      "name": "操作",
+      "font_class": "caozuo",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "7155296",
+      "name": "关于我们",
+      "font_class": "guanyuwomen",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    }
+  ]
+}

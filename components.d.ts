@@ -7,9 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    JxTabBar: typeof import('./src/components/jxTabBar.vue')['default']
+    JxTabBar: typeof import('./src/components/jx-tab-bar/index.vue')['default']
     NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
-    NutToast: typeof import('@nutui/nutui-taro')['Toast']
+    PageLayout: typeof import('./src/components/page-layout/index.vue')['default']
   }
 }

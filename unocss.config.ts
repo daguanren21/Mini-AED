@@ -1,17 +1,24 @@
 import presetWeapp from 'unocss-preset-weapp'
-import {  transformerClass,extractorAttributify } from 'unocss-preset-weapp/transformer'
+import { transformerClass, extractorAttributify } from 'unocss-preset-weapp/transformer'
 import { defineConfig } from 'unocss/webpack'
 const { presetWeappAttributify, transformerAttributify } = extractorAttributify()
 export default defineConfig({
     presets: [
         // https://github.com/MellowCo/unocss-preset-weapp
-        presetWeapp(),
+        presetWeapp({
+            platform:'taro'
+        }),
         presetWeappAttributify(),
     ],
     shortcuts: [
         {
-            'border-base': 'border border-gray-500/10',
-            'center': 'flex justify-center items-center',
+            "~": "flex",
+            "wh-full": 'w-full h-full',
+            "flex-center": "flex justify-center items-center",
+            "flex-x-center": "flex justify-center",
+            "flex-y-center": "flex items-center",
+            "flex-col": "flex flex-col",
+            "primary-color":"text-#fa6419"
         },
     ],
 
