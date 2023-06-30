@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/guide/index',
     'pages/center/index',
     'pages/guide-detail/index',
+    'pages/systemInfo/index',
+    'pages/feed-back/index'
   ],
   "plugins": {
     "chatbot": {

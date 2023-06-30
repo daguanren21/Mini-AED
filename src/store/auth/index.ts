@@ -1,13 +1,19 @@
 import { defineStore } from 'pinia'
+import { Auth } from '~/request/api/login'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        token: '',
+        authInfo: {
+            id_token: '',
+            openid: '',
+            unionid: '',
+            phoneNumber: '',
+        } as Auth,
         tabName: 'advice'
     }),
     actions: {
-        updateToken(token: string) {
-            this.$state.token = token
+        updateAuthInfo(authInfo) {
+            this.$state.authInfo = authInfo
         },
         updateTabName(tabName) {
             this.$state.tabName = tabName

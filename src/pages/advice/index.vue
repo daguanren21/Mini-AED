@@ -1,9 +1,8 @@
 <template>
-    <!-- <button @getphonenumber="getUserProfile" open-type="getPhoneNumber">获取手机号</button>
-        <button @getuserinfo="getUserInfo" open-type="getUserInfo">获取用户信息</button> -->
     <page-layout>
-        <div class="wh-full">
-            <chat bind:queryCallback="getQueryCallback" />
+        <div class="flex-center wh-full" >
+            <chat v-if="authInfo.id_token" />
+            <nut-empty v-else description="请先授权登录"></nut-empty>
         </div>
         <!-- <div class="wh-full">
             <div class="flex-y-center justify-start w-full mb-15px">
@@ -32,41 +31,63 @@
 </template>
   
 <script setup lang="ts">
-import Taro, { requirePlugin, useDidShow, useLoad, useReady } from '@tarojs/taro';
+import Taro, { requirePlugin, useDidShow } from '@tarojs/taro';
+import { useAuthStore } from '~/store/auth';
 const plugin = requirePlugin("chatbot");
-const adviceList = ref([{
-    key: 'answer',
-
-}])
-const signature = ref('')
-const nodes = ref('')
-useReady(async () => {
-    const signRes = await Taro.request({
-        url: 'https://chatbot.weixin.qq.com/openapi/sign/U6gQND4LC750OBNab9HdMFdfd3PSMt',
-        method: 'POST',
-        data: {
-            userid: '123'
-        }
-    })
-    signature.value = signRes.data.signature
+const auth = useAuthStore()
+const authInfo =computed(()=>auth.authInfo)
+useDidShow(async () => {
+    // const signRes = await Taro.request({
+    //     url: 'https://chatbot.weixin.qq.com/openapi/sign/U6gQND4LC750OBNab9HdMFdfd3PSMt',
+    //     method: 'POST',
+    //     data: {
+    //         userid: '123'
+    //     }
+    // })
+    // signature.value = signRes.data.signature
+    const accountInfo = await Taro.getAccountInfoSync();
+    if (authInfo.value.openid) {
+      plugin.init({
+        appid: accountInfo.miniProgram.appId, //微信对话开放平台小程序插件appid
+        openid: authInfo.value.openid, // 小程序用户的openid，必填项
+        welcome: "",
+        background: "#eee",
+        guideList: [],
+        guideCardHeight: 50,
+        operateCardHeight: 42,
+        history: false,
+        historySize: 0,
+        navHeight: 88, // 自定义导航栏高度
+        robotHeader:
+          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",
+        userHeader:
+          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/rightHeader.png",
+        userName: "",
+        success: () => {
+        },
+        fail: () => { },
+      });
+      const chat = plugin.getChatComponent()
+      chat.setGuideList(['AED使用', 'AED安装'])
+    }
 })
 
-function send(){
-    const chat = plugin.getChatComponent();
-    console.log("chat", chat);
-}
-async function search(query: string) {
-    const aibotRes = await Taro.request({
-        url: 'https://chatbot.weixin.qq.com/openapi/aibot/U6gQND4LC750OBNab9HdMFdfd3PSMt',
-        method: 'POST',
-        data: {
-            query,
-            signature: signature.value
-        }
-    })
-    nodes.value = aibotRes.data.answer
-    console.log('id_token', aibotRes.data)
-}
+// function send(){
+//     const chat = plugin.getChatComponent();
+//     console.log("chat", chat);
+// }
+// async function search(query: string) {
+//     const aibotRes = await Taro.request({
+//         url: 'https://chatbot.weixin.qq.com/openapi/aibot/U6gQND4LC750OBNab9HdMFdfd3PSMt',
+//         method: 'POST',
+//         data: {
+//             query,
+//             signature: signature.value
+//         }
+//     })
+//     nodes.value = aibotRes.data.answer
+//     console.log('id_token', aibotRes.data)
+// }
 </script>
 
 <style lang="scss">

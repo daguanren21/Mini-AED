@@ -52,6 +52,7 @@
     "@tarojs/runtime": "3.6.1",
     "@tarojs/shared": "3.6.1",
     "@tarojs/taro": "3.6.1",
+    "dayjs": "^1.11.8",
     "pinia": "^2.1.4",
     "vue": "^3.3.4"
   },

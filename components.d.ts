@@ -8,8 +8,17 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     JxTabBar: typeof import('./src/components/jx-tab-bar/index.vue')['default']
+    NutBacktop: typeof import('@nutui/nutui-taro')['Backtop']
+    NutButton: typeof import('@nutui/nutui-taro')['Button']
+    NutCell: typeof import('@nutui/nutui-taro')['Cell']
+    NutCellGroup: typeof import('@nutui/nutui-taro')['CellGroup']
+    NutEmpty: typeof import('@nutui/nutui-taro')['Empty']
+    NutInput: typeof import('@nutui/nutui-taro')['Input']
     NutTabbar: typeof import('@nutui/nutui-taro')['Tabbar']
     NutTabbarItem: typeof import('@nutui/nutui-taro')['TabbarItem']
+    NutTextarea: typeof import('@nutui/nutui-taro')['Textarea']
+    NutToast: typeof import('@nutui/nutui-taro')['Toast']
+    NutUploader: typeof import('@nutui/nutui-taro')['Uploader']
     PageLayout: typeof import('./src/components/page-layout/index.vue')['default']
   }
 }
