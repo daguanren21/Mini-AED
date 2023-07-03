@@ -19,15 +19,13 @@ const App = createApp({
     auth.updateAuthInfo(res)
     if(res.openid){
       plugin.init({
-        appid: accountInfo.miniProgram.appId, //微信对话开放平台小程序插件appid
+        appid: "U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
         openid: res.openid, // 小程序用户的openid，必填项
         welcome: "",
         background: "#eee",
         guideList: ['AED使用', 'AED安装'],
         guideCardHeight: 50,
         operateCardHeight: 42,
-        history: false,
-        historySize: 0,
         navHeight: 88, // 自定义导航栏高度
         robotHeader:
             "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",

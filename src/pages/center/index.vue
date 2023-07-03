@@ -101,7 +101,7 @@ function toPage(name: string) {
 .nut-cell__value {
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content:flex-end;
     flex: inherit;
     color: #000;
 }

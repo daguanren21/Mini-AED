@@ -58,6 +58,10 @@ const config = {
     data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
   },
   mini: {
+    //解决编译报错couldn't fulfill desired order of chunk group(s),issues：https://github.com/jdf2e/nutui/issues/2126
+    miniCssExtractPluginOption:{
+      ignoreOrder:true
+    },
     webpackChain(chain) {
       chain.plugin('unplugin-vue-components').use(Components({
         include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],

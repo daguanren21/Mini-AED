@@ -46,17 +46,16 @@ useDidShow(async () => {
     // })
     // signature.value = signRes.data.signature
     const accountInfo = await Taro.getAccountInfoSync();
+    console.log(accountInfo)
     if (authInfo.value.openid) {
       plugin.init({
-        appid: accountInfo.miniProgram.appId, //微信对话开放平台小程序插件appid
+        appid:"U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
         openid: authInfo.value.openid, // 小程序用户的openid，必填项
         welcome: "",
         background: "#eee",
         guideList: [],
         guideCardHeight: 50,
         operateCardHeight: 42,
-        history: false,
-        historySize: 0,
         navHeight: 88, // 自定义导航栏高度
         robotHeader:
           "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",

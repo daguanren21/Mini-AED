@@ -21,12 +21,12 @@
 </template>
 
 <script setup lang="ts">
+import Taro from '@tarojs/taro'
 import { reactive, ref } from 'vue';
 import { useAuthStore } from "../../store/auth";
 import { baseUrl } from "../../request/constant";
 import { saveFeedBack } from "../../request/api/login"
 import { useToast } from '../../composables';
-import Taro from '@tarojs/taro'
 const phonePattern = /^1\d{10}$/
 const auth = useAuthStore()
 const feedback = reactive({

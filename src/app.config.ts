@@ -1,16 +1,17 @@
 export default defineAppConfig({
   pages: [
+    'pages/feed-back/index',
+    'pages/systemInfo/index',
+    'pages/guide-detail/index',
     'pages/advice/index',
     'pages/guide/index',
     'pages/center/index',
-    'pages/guide-detail/index',
-    'pages/systemInfo/index',
-    'pages/feed-back/index'
+
   ],
   "plugins": {
     "chatbot": {
       "version": "1.3.7",
-      "provider": "wx8c631f7e9f2465e1"
+      "provider": "wx8c631f7e9f2465e1",
     }
   },
   window: {
