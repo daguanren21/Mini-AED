@@ -1,7 +1,7 @@
 <template>
     <div>
         <nut-tabbar @tab-switch="tabSwitch" v-model="activeTab" class="w-full">
-            <nut-tabbar-item name="advice" tab-title="问题咨询">
+            <nut-tabbar-item name="mini-advice" tab-title="问题咨询">
                 <template #icon>
                     <Category></Category>
                 </template>
@@ -11,7 +11,7 @@
                     <Find></Find>
                 </template>
             </nut-tabbar-item>
-            <nut-tabbar-item name="center" tab-title="个人中心">
+            <nut-tabbar-item name="mini-center" tab-title="个人中心">
                 <template #icon>
                     <My></My>
                 </template>
