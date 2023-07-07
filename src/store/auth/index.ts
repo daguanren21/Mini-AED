@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('auth', {
             unionid: '',
             phoneNumber: '',
         } as Auth,
+        deviceSn:'',
         tabName: 'mini-advice'
     }),
     actions: {

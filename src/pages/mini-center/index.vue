@@ -29,12 +29,13 @@
                     <IconFont color="#fa2c19" font-class-name="iconfont" class-prefix="icon" name="wentifankui" size="24" />
                 </template>
             </nut-cell>
-            <nut-cell @click="toPage('systemInfo')"  class="border-b-1px border-b-solid b-hex-ededed"  desc="V1.0.0" title="关于系统" is-link>
+            <nut-cell @click="toPage('systemInfo')" class="border-b-1px border-b-solid b-hex-ededed" desc="V1.0.0"
+                title="关于系统" is-link>
                 <template v-slot:icon>
                     <IconFont color="#1890ff" font-class-name="iconfont" class-prefix="icon" name="guanyuwomen" size="24" />
                 </template>
             </nut-cell>
-            <nut-cell @click="toMiniProgram" sub-title="此系统用于机构或政府线上安装AED" title="前往AED急救地图" is-link>
+            <nut-cell @click="toMiniProgram" sub-title="把救命神器布防点位分享给身边人" title="前往AED急救地图" is-link>
                 <template v-slot:icon>
                     <IconFont color="#1899" font-class-name="iconfont" class-prefix="icon" name="anzhuang" size="24" />
                 </template>
@@ -93,11 +94,16 @@ function toPage(name: string) {
     })
 }
 //跳转到AED急救地图小程序
-function toMiniProgram(){
-Taro.navigateToMiniProgram({
-    appId:'wx87eed2c15caaca73',
-    path: 'improvePages/deviceGuide/index'
-})
+function toMiniProgram() {
+    console.log(auth.deviceSn)
+    Taro.navigateToMiniProgram({
+        appId: 'wx87eed2c15caaca73',
+        path: 'improvePages/deviceGuide/index?deviceSn='+auth.deviceSn,
+        envVersion:'trial',
+        extraData: {
+            deviceSn: auth.deviceSn
+        }
+    })
 }
 </script>
 
@@ -111,7 +117,7 @@ Taro.navigateToMiniProgram({
 .nut-cell__value {
     display: flex;
     align-items: center;
-    justify-content:flex-end;
+    justify-content: flex-end;
     flex: inherit;
     color: #000;
 }
