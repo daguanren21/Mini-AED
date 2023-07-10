@@ -1,41 +1,47 @@
 <template>
     <page-layout>
-        <div class="flex-center wh-full" >
+        <!-- <div class="flex-center wh-full" >
             <chat v-if="authInfo.id_token" />
             <nut-empty v-else description="请先授权登录"></nut-empty>
-        </div>
-        <!-- <div class="wh-full">
-            <div class="flex-y-center justify-start w-full mb-15px">
-                <div class="w-80px h-80px rounded-full">
-                    <image class="wh-full" mode="aspectFill"
-                        src='https://res.wx.qq.com/mmspraiweb_node/dist/static/openaiplugin/img/answerImage.png' />
-                </div>
-                <div class="~ ml-10px rounded-15px w-500px  shadow-lg b-1px p-20px">
-                    <p class="text-30px">请问您有什么需要帮助的么？</p>
-                    <p class="text-30px primary-color" @click="search('AED使用')">AED使用</p>
-                    <p class="text-30px primary-color" @click="search('AED安装')">AED安装</p>
-                </div>
-            </div>
-            <div class="flex-y-center  justify-end w-full">
-                <div class=" ~ ml-10px rounded-15px w-500px  shadow-lg b-1px p-20px">
-                    <p class="text-30px">
-                        <rich-text :nodes="nodes"></rich-text>
-                    </p>
-                </div>
-                <div class="w-80px h-80px rounded-full overflow-hidden">
-                    <open-data class="wh-full" type="userAvatarUrl"></open-data>
-                </div>
-            </div>
         </div> -->
+        <div class="wh-full pt-10px overflow-auto">
+            <div v-for="item in historyList">
+                <div v-if="item.ask" class="flex-y-center  justify-end w-full  mb-15px">
+                    <div class=" ~ mr-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
+                        <p class="text-30px">
+                            {{ item.ask }}
+                        </p>
+                    </div>
+                    <div class="w-80px h-80px rounded-full overflow-hidden">
+                        <open-data class="wh-full" type="userAvatarUrl"></open-data>
+                    </div>
+                </div>
+                <div v-for="answer in item.answer" class="flex-y-center justify-start w-full mb-15px">
+                    <div class="w-80px h-80px rounded-full">
+                        <image class="wh-full" mode="aspectFill" :src='chatAvatarUrl' />
+                    </div>
+                    <div class="~ ml-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
+                        <p class="text-30px">{{ answer.title }}</p>
+                        <template v-if="answer.questions">
+                            <p class="text-30px  p-10px" :class="{ 'primary-color': question.isLink }"
+                                @click="ask(question)" v-for="question in answer.questions">{{ question.title }}</p>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </page-layout>
 </template>
   
 <script setup lang="ts">
 import Taro, { requirePlugin, useDidShow } from '@tarojs/taro';
 import { useAuthStore } from '~/store/auth';
+import { questionList } from '.';
 const plugin = requirePlugin("chatbot");
 const auth = useAuthStore()
-const authInfo =computed(()=>auth.authInfo)
+const authInfo = computed(() => auth.authInfo)
+const chatAvatarUrl = 'https://res.wx.qq.com/mmspraiweb_node/dist/static/openaiplugin/img/answerImage.png'
 useDidShow(async () => {
     // const signRes = await Taro.request({
     //     url: 'https://chatbot.weixin.qq.com/openapi/sign/U6gQND4LC750OBNab9HdMFdfd3PSMt',
@@ -48,45 +54,118 @@ useDidShow(async () => {
     const accountInfo = await Taro.getAccountInfoSync();
     console.log(accountInfo)
     if (authInfo.value.openid) {
-      plugin.init({
-        appid:"U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
-        openid: authInfo.value.openid, // 小程序用户的openid，必填项
-        welcome: "",
-        background: "#eee",
-        guideList: [],
-        guideCardHeight: 50,
-        operateCardHeight: 42,
-        navHeight: 88, // 自定义导航栏高度
-        robotHeader:
-          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",
-        userHeader:
-          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/rightHeader.png",
-        userName: "",
-        success: () => {
-        },
-        fail: () => { },
-      });
-      const chat = plugin.getChatComponent()
-      chat.setGuideList(['AED使用', 'AED安装'])
+        plugin.init({
+            appid: "U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
+            openid: authInfo.value.openid, // 小程序用户的openid，必填项
+            welcome: "",
+            background: "#eee",
+            guideList: [],
+            guideCardHeight: 50,
+            operateCardHeight: 42,
+            navHeight: 88, // 自定义导航栏高度
+            robotHeader:
+                "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",
+            userHeader:
+                "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/rightHeader.png",
+            userName: "",
+            success: () => {
+            },
+            fail: () => { },
+        });
+        const chat = plugin.getChatComponent()
+        chat.setGuideList(['AED使用', 'AED安装'])
     }
 })
 
-// function send(){
-//     const chat = plugin.getChatComponent();
-//     console.log("chat", chat);
-// }
-// async function search(query: string) {
-//     const aibotRes = await Taro.request({
-//         url: 'https://chatbot.weixin.qq.com/openapi/aibot/U6gQND4LC750OBNab9HdMFdfd3PSMt',
-//         method: 'POST',
-//         data: {
-//             query,
-//             signature: signature.value
-//         }
-//     })
-//     nodes.value = aibotRes.data.answer
-//     console.log('id_token', aibotRes.data)
-// }
+const historyList = ref([{
+    answer: [{
+        title: '您好，我是久心助手请问您有什么需要帮助的么？'
+    }, {
+        title: '您可能问的问题：',
+        questions: [{
+            title: 'AED知识',
+            isLink: true,
+        }, {
+            title: 'AED使用',
+            isLink: true,
+        }, {
+            title: 'AED售后',
+            isLink: true,
+        }, {
+            title: 'AED配件',
+            isLink: true,
+        }, {
+            title: '机箱配件',
+            isLink: true,
+        }]
+    }],
+    ask: ''
+}])
+function ask(question: { title: string, isLink: boolean }) {
+    if (question.title.includes('400-820-9952')) {
+        Taro.makePhoneCall({
+            phoneNumber: '400-820-9952'
+        })  
+    }
+    if (!question.isLink) return;
+    let answer = findAnswer(questionList, question.title)
+    historyList.value.push({
+        answer,
+        ask: question.title
+    })
+}
+function findAnswer(data: any, title: string) {
+    let answer;
+    let len = data.filter(v => v.title === title).length
+    if (!len) {
+        for (let index = 0; index < data.length; index++) {
+            console.log(data[index].title)
+            if ('children' in data[index]) {
+                answer = findAnswer(data[index].children, title)
+                if (answer.length) {
+                    return answer
+                } else {
+                    continue
+                }
+            }
+            continue
+        }
+    }
+    answer = data.filter(v => v.title === title).map(v => {
+        let questions: {
+            title: string,
+            isLink: boolean
+        }[] = []
+        if ('answer' in v) {
+            if (typeof v.answer === 'string') {
+                questions.push({
+                    title: v.answer,
+                    isLink: false
+                })
+            } else {
+                questions = v.answer.map(v => {
+                    return {
+                        title: v.step,
+                        isLink: false
+                    }
+                })
+            }
+        } else if ('children' in v) {
+            questions = v.children.map(v => {
+                return {
+                    title: v.title,
+                    isLink: true
+                }
+            })
+        }
+
+        return {
+            title: v.title,
+            questions
+        }
+    })
+    return answer
+}
 </script>
 
 <style lang="scss">
