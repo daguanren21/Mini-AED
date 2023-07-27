@@ -24,11 +24,11 @@
             </div>
         </view>
         <nut-cell-group>
-            <nut-cell @click="toPage('feed-back')" title="功能反馈" class="border-b-1px border-b-solid b-hex-ededed" is-link>
+            <!-- <nut-cell @click="toPage('feed-back')" title="功能反馈" class="border-b-1px border-b-solid b-hex-ededed" is-link>
                 <template v-slot:icon>
                     <IconFont color="#fa2c19" font-class-name="iconfont" class-prefix="icon" name="wentifankui" size="24" />
                 </template>
-            </nut-cell>
+            </nut-cell> -->
             <nut-cell @click="toPage('systemInfo')" class="border-b-1px border-b-solid b-hex-ededed" desc="V1.0.0"
                 title="关于系统" is-link>
                 <template v-slot:icon>
@@ -51,8 +51,10 @@ import { useDidShow } from '@tarojs/taro';
 import { oneKeyForLogin } from '~/request/api/login';
 import { useAuthStore } from '~/store/auth';
 import { useToast } from "~/composables"
+import { storeToRefs } from 'pinia';
 const avatarUrl = ref(Taro.getStorageSync('avatarUrl') || '')
 const auth = useAuthStore()
+const { deviceSn } = storeToRefs(auth)
 const hidePhoneNumber = /^(\d{3})\d{4}(\d{4})$/;
 const phoneNumber = computed(() => auth.authInfo.phoneNumber ? auth.authInfo.phoneNumber.replace(hidePhoneNumber, "$1****$2") : '')
 const nickName = ref('')
@@ -98,10 +100,10 @@ function toMiniProgram() {
     console.log(auth.deviceSn)
     Taro.navigateToMiniProgram({
         appId: 'wx87eed2c15caaca73',
-        path: 'improvePages/deviceGuide/index?deviceSn='+auth.deviceSn,
-        envVersion:'trial',
+        path: 'improvePages/deviceGuide/index?deviceSn=' + deviceSn.value,
+        envVersion: 'trial',
         extraData: {
-            deviceSn: auth.deviceSn
+            deviceSn: deviceSn.value
         }
     })
 }

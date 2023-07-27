@@ -9,15 +9,16 @@ export const useAuthStore = defineStore('auth', {
             unionid: '',
             phoneNumber: '',
         } as Auth,
-        deviceSn:'',
-        tabName: 'mini-advice'
+        deviceSn: '',
+        tabName: 'guide',
+        isRead: false
     }),
     actions: {
         updateAuthInfo(authInfo) {
-            this.$state.authInfo = authInfo
+            this.authInfo = authInfo
         },
         updateTabName(tabName) {
-            this.$state.tabName = tabName
+            this.tabName = tabName
         }
     }
 })

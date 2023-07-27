@@ -29,11 +29,13 @@ const App = createApp({
   async onLaunch() {
     const auth = useAuthStore()
     let options = getCurrentInstance().router?.params
+    console.log('设备编号：',options.q)
     if (options && options.q) {
       const decodedUri = decodeURIComponent(options.q as string);
       let deviceSn = parseDeviceSnFromUrl(decodedUri)
+      console.log('设备编号：',deviceSn)
       if (deviceSn) {
-        auth.$state.deviceSn = deviceSn
+        auth.deviceSn = deviceSn
       }
     }
     let wxLoginRes = await Taro.login();

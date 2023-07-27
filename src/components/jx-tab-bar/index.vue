@@ -1,14 +1,14 @@
 <template>
     <div>
         <nut-tabbar @tab-switch="tabSwitch" v-model="activeTab" class="w-full">
-            <nut-tabbar-item name="mini-advice" tab-title="问题咨询">
-                <template #icon>
-                    <Category></Category>
-                </template>
-            </nut-tabbar-item>
             <nut-tabbar-item name="guide" tab-title="操作指南">
                 <template #icon>
                     <Find></Find>
+                </template>
+            </nut-tabbar-item>
+            <nut-tabbar-item name="mini-advice" tab-title="问题咨询">
+                <template #icon>
+                    <Category></Category>
                 </template>
             </nut-tabbar-item>
             <nut-tabbar-item name="mini-center" tab-title="个人中心">

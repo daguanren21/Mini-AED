@@ -1,7 +1,7 @@
 export default defineAppConfig({
   pages: [
-    'pages/mini-advice/index',
     'pages/guide/index',
+    'pages/mini-advice/index',
     'pages/mini-center/index',
     'pages/feed-back/index',
     'pages/systemInfo/index',
@@ -27,13 +27,14 @@ export default defineAppConfig({
     backgroundColor: '#ffffff',
     list: [
       {
+        pagePath: 'pages/guide/index',
+        text: '操作指南'
+      },
+      {
         pagePath: 'pages/mini-advice/index',
         text: '问题咨询'
       },
       {
-        pagePath: 'pages/guide/index',
-        text: '操作指南'
-      }, {
         pagePath: 'pages/mini-center/index',
         text: '个人中心'
       }

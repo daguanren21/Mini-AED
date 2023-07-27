@@ -91,7 +91,7 @@ async function handleSubmit() {
 }
 function deleteFiles({ files, fileList, index }) {
     _fileList.value.splice(index, 1)
-    console.log(_fileList.value)
+    console.log(files, fileList)
 }
 </script>
 

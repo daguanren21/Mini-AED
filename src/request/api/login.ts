@@ -4,6 +4,7 @@ const api = {
     base: '/v1/mini-program/public',
     auth: '/v1/authenticate/mini-aed',
     feedBack: '/v1/mini-program/feed-backs',
+    device:'/v1/mini-program/devices'
 }
 /**
  * 获取wx登录信息
@@ -94,6 +95,18 @@ export interface FeedBackParams {
 export function saveFeedBack(data: FeedBackParams): Promise<void> {
     return request({
         url: api.feedBack,
+        data,
+        method: Method.POST
+    })
+}
+
+
+export function bindMiniAed(data:{
+    serialNumber:string,
+    contactPhone:string
+}): Promise<void> {
+    return request({
+        url: api.device + `/mini-bind-phone`,
         data,
         method: Method.POST
     })
