@@ -13,7 +13,8 @@
                         </p>
                     </div>
                     <div class="w-80px h-80px rounded-full overflow-hidden">
-                        <open-data class="wh-full" type="userAvatarUrl"></open-data>
+                        <image  class="wh-full" v-if="avatarUrl" :src="avatarUrl"></image>
+                        <open-data class="wh-full" v-else type="userAvatarUrl"></open-data>
                     </div>
                 </div>
                 <div v-for="answer in item.answer" class="flex-y-center justify-start w-full mb-15px">
@@ -42,6 +43,8 @@ const plugin = requirePlugin("chatbot");
 const auth = useAuthStore()
 const authInfo = computed(() => auth.authInfo)
 const chatAvatarUrl = 'https://res.wx.qq.com/mmspraiweb_node/dist/static/openaiplugin/img/answerImage.png'
+const avatarUrl = ref(Taro.getStorageSync('avatarUrl') || '')
+
 useDidShow(async () => {
     // const signRes = await Taro.request({
     //     url: 'https://chatbot.weixin.qq.com/openapi/sign/U6gQND4LC750OBNab9HdMFdfd3PSMt',
@@ -52,6 +55,7 @@ useDidShow(async () => {
     // })
     // signature.value = signRes.data.signature
     const accountInfo = await Taro.getAccountInfoSync();
+    avatarUrl.value = Taro.getStorageSync('avatarUrl')
     console.log(accountInfo)
     if (authInfo.value.openid) {
         plugin.init({

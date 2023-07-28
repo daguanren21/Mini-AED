@@ -8,7 +8,7 @@
             </nut-tabbar-item>
             <nut-tabbar-item name="mini-advice" tab-title="问题咨询">
                 <template #icon>
-                    <Category></Category>
+                    <IconFont font-class-name="iconfont" class-prefix="icon" name="zhishiwenda" size="20" />
                 </template>
             </nut-tabbar-item>
             <nut-tabbar-item name="mini-center" tab-title="个人中心">
@@ -21,7 +21,8 @@
 </template>
 <script setup lang="ts">
 import Taro from '@tarojs/taro'
-import { Category, Find, My } from '@nutui/icons-vue-taro';
+import { IconFont } from '@nutui/icons-vue-taro';
+import { Find, My } from '@nutui/icons-vue-taro';
 import { useAuthStore } from '~/store/auth';
 defineOptions({
     name: 'JxTabBar'

@@ -37,7 +37,7 @@
             </nut-cell>
             <nut-cell @click="toMiniProgram" sub-title="把救命神器布防点位分享给身边人" title="前往AED急救地图" is-link>
                 <template v-slot:icon>
-                    <IconFont color="#1899" font-class-name="iconfont" class-prefix="icon" name="anzhuang" size="24" />
+                    <IconFont color="#1899" font-class-name="iconfont" class-prefix="icon" name="fenxiang" size="24" />
                 </template>
             </nut-cell>
         </nut-cell-group>

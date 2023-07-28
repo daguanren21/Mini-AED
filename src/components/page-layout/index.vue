@@ -11,6 +11,12 @@
 defineOptions({
     name: 'PageLayout'
 })
+const useTip = reactive({
+    show: false,
+    confirm: () => {
+        useTip.show = false
+    }
+})
 </script>
 
 <style scoped lang="scss">

@@ -4,26 +4,21 @@
             <page-layout>
                 <nut-toast :msg="state.msg" v-model:visible="state.show" :type="state.type" :cover="state.cover" />
                 <div class="guideList">
-                    <nut-backtop>
-                        <template v-slot:content>
-                            <div class="h-full pb-20px" v-if="guideList.length">
-                                <div v-for="item in guideList" :key="item.id" @click="toPage(item.id)"
-                                    class="cursor-pointer  guide-item p-50px text-center text-40px font-bold rounded-15px relative">
-                                    <!-- <img mode="aspectFill" class="absolute top-0 bottom-0 left-0 right-0 wh-full" :src="item.titleImagePath" alt="" srcset="" > -->
-                                    <div class="flex-center">
-                                        <span class="mr-20px text-shadow">{{ item.title }}</span>
-                                        <IconFont class="text-shadow" font-class-name="iconfont" class-prefix="icon"
-                                            name="caozuo" size="24" />
-                                    </div>
-                                </div>
+                    <div class="h-full pb-20px mt-20px" v-if="guideList.length">
+                        <div v-for="item in guideList" :key="item.id" @click="toPage(item.id)"
+                            class="cursor-pointer  guide-item p-50px text-center text-40px font-bold rounded-15px relative">
+                            <!-- <img mode="aspectFill" class="absolute top-0 bottom-0 left-0 right-0 wh-full" :src="item.titleImagePath" alt="" srcset="" > -->
+                            <div class="flex-center">
+                                <span class="mr-20px text-shadow primary-color">{{ item.title }}</span>
+                                <IconFont class="text-shadow primary-color" font-class-name="iconfont" class-prefix="icon"
+                                    name="caozuo" size="24" />
                             </div>
-                            <div class="flex-center wh-full" v-else>
-                                <nut-empty description="暂无数据"></nut-empty>
-                            </div>
-                        </template>
-                    </nut-backtop>
+                        </div>
+                    </div>
+                    <div class="flex-center wh-full" v-else>
+                        <nut-empty description="暂无数据"></nut-empty>
+                    </div>
                 </div>
-
             </page-layout>
         </div>
         <div v-else>
@@ -40,8 +35,8 @@
                     open-type="getPhoneNumber">授权登录</nut-button>
             </template>
         </nut-dialog>
-        <nut-dialog title="温馨提示" text-align="left" content="用于治疗疑似心脏骤停患者（无反应、无脉搏、无呼吸或呼吸不正常），其中儿童模式适用于0至7岁的患者，成人模式适用于8岁及以上的患者。"
-            v-model:visible="useTip.show">
+        <nut-dialog title="温馨提示" text-align="left"
+            content="用于治疗疑似心脏骤停患者（无反应、无脉搏、无呼吸或呼吸不正常），其中儿童模式适用于0至7岁的患者，成人模式适用于8岁及以上的患者。" v-model:visible="useTip.show">
             <template #footer>
                 <nut-button @click="useTip.confirm" class="center-button" type="primary">已阅读</nut-button>
             </template>
@@ -58,6 +53,7 @@ import { GuideInfo, bindMiniAed, oneKeyForLogin } from '~/request/api/login';
 import { fetchOperateGuide } from '~/request/api/login';
 import { useAuthStore } from '~/store/auth';
 const auth = useAuthStore()
+
 const { authInfo, deviceSn } = storeToRefs(auth)
 const { state, openToast } = useToast()
 function toPage(id: number) {

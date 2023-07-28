@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2076191",
+      "name": "分享",
+      "font_class": "fenxiang",
+      "unicode": "e86e",
+      "unicode_decimal": 59502
+    },
+    {
+      "icon_id": "16056249",
+      "name": "知识问答",
+      "font_class": "zhishiwenda",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
       "icon_id": "16942069",
       "name": "安装",
       "font_class": "anzhuang",

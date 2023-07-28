@@ -1,8 +1,8 @@
 <template>
-    <view class="news_wrap">
+    <view class="news_wrap bg-hex-fff mt-2px">
         <nut-backtop>
             <template v-slot:content>
-                <div class="p-x-50px pb-20px">
+                <div class="p-x-50px pb-20px ">
                     <view class="title">{{ info?.title }}</view>
                     <view class="publish_time">
                         <text>{{ dateFilter(info?.publishTime) }}</text>
