@@ -18,8 +18,6 @@
                 </div>
                 <div class="flex-y-center text-30px text-hex-#ededed">
                     <span class="mr-20px">{{ phoneNumber || '暂无手机号信息' }}</span>
-                    <nut-button v-if="!phoneNumber" @getphonenumber="getPhoneNumber" class="center-button" type="primary"
-                        open-type="getPhoneNumber">授权</nut-button>
                 </div>
             </div>
         </view>
@@ -48,7 +46,6 @@
 import Taro from '@tarojs/taro';
 import { IconFont } from '@nutui/icons-vue-taro';
 import { useDidShow } from '@tarojs/taro';
-import { oneKeyForLogin } from '~/request/api/login';
 import { useAuthStore } from '~/store/auth';
 import { useToast } from "~/composables"
 import { storeToRefs } from 'pinia';
@@ -67,25 +64,7 @@ const getAvatar = (e) => {
     avatarUrl.value = e.detail.avatarUrl
     Taro.setStorageSync('avatarUrl', e.detail.avatarUrl)
 }
-const getPhoneNumber = async (e) => {
-    let { errMsg, iv, encryptedData } = e.detail
-    if (errMsg == "getPhoneNumber:ok") {
-        let res = await oneKeyForLogin({
-            unionid: auth.authInfo.unionid,
-            iv,
-            encryptedData
-        })
-        auth.updateAuthInfo(res)
-        if (!res) {
-            openToast('error', "微信登录失败")
-            return Promise.reject("微信登录失败")
-        }
-        if (!res.id_token) {
-            openToast('error', "微信授权失败")
-            return Promise.reject("微信授权失败");
-        }
-    }
-}
+
 function toPage(name: string) {
     if (name === 'feed-back' && !phoneNumber) {
         openToast('warn', "请先微信授权")

@@ -1,15 +1,15 @@
 <template>
     <view class="service_info p-x-20px">
         <view class="header">
-            <image src="../../assets/images/jx-logo-white.png"></image>
-            <view class="title">家庭急救宝 AED</view>
+            <image src="../../assets/images/jx-logo.svg"></image>
+            <view class="title">久心急救</view>
             <view class="version">V1.0.0</view>
         </view>
         <view class="at-article">
             <view class="at-article__content">
                 <view class="at-article__section">
                     <view class="at-article__p">
-                        家庭急救宝 AED是久心医疗科技（苏州）有限公司具有完全自主知识产权、面向社会公众、久心急救提供 问题咨询、操作指南、个人中心等功能，为了给用户日常维护以及使用提供相关指南。
+                        家庭急救宝是久心医疗科技（苏州）有限公司具有完全自主知识产权、面向社会公众的AED设备。久心急救提供问题咨询、操作指南、个人中心等功能，为了给用户日常维护以及使用提供相关指南。
                     </view>
                 </view>
             </view>

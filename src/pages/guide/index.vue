@@ -22,7 +22,7 @@
             </page-layout>
         </div>
         <div v-else>
-            <nut-empty image="empty" description="暂无相关设备权限，无法查看">
+            <nut-empty image="empty" description="暂无查看权限，请授权后查看">
                 <div style="margin-top: 10px">
                     <nut-button @getphonenumber="dialog.getPhoneNumber" class="center-button" type="primary"
                         open-type="getPhoneNumber">授权登录</nut-button>

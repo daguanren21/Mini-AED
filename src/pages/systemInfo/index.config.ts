@@ -1,3 +1,3 @@
 export default definePageConfig({
-    navigationBarTitleText:'系统介绍'
+    navigationBarTitleText:'关于系统'
 })

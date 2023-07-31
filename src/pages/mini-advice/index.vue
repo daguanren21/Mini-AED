@@ -4,81 +4,67 @@
             <chat v-if="authInfo.id_token" />
             <nut-empty v-else description="请先授权登录"></nut-empty>
         </div> -->
-        <div class="wh-full pt-10px overflow-auto">
-            <div v-for="item in historyList">
-                <div v-if="item.ask" class="flex-y-center  justify-end w-full  mb-15px">
-                    <div class=" ~ mr-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
-                        <p class="text-30px">
-                            {{ item.ask }}
-                        </p>
+        <div class="wh-full overflow-hidden flex-col">
+            <div class="flex-1 pt-10px overflow-hidden mb-20px">
+                <scroll-view :scroll-y="true" :scroll-top="scrollTop" style="height:100%;" id="scrollViewRef">
+                    <div v-for="item in historyList">
+                        <div v-if="item.ask" class="flex-y-center  justify-end w-full  mb-15px">
+                            <div class=" ~ mr-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
+                                <p class="text-30px">
+                                    {{ item.ask }}
+                                </p>
+                            </div>
+                            <div class="w-80px h-80px rounded-full overflow-hidden">
+                                <image class="wh-full" v-if="avatarUrl" :src="avatarUrl"></image>
+                                <open-data class="wh-full" v-else type="userAvatarUrl"></open-data>
+                            </div>
+                        </div>
+                        <div v-for="answer in item.answer" class="flex-y-center justify-start w-full mb-15px">
+                            <div class="w-80px h-80px rounded-full">
+                                <image class="wh-full" mode="aspectFill" :src='chatAvatarUrl' />
+                            </div>
+                            <div class="~ ml-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
+                                <p class="text-30px">{{ answer.title }}</p>
+                                <template v-if="answer.questions">
+                                    <p class="text-30px  p-10px" :class="{ 'primary-color': question.isLink }"
+                                        @click="ask(question)" v-for="question in answer.questions">{{ question.title }}</p>
+                                </template>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-80px h-80px rounded-full overflow-hidden">
-                        <image  class="wh-full" v-if="avatarUrl" :src="avatarUrl"></image>
-                        <open-data class="wh-full" v-else type="userAvatarUrl"></open-data>
-                    </div>
-                </div>
-                <div v-for="answer in item.answer" class="flex-y-center justify-start w-full mb-15px">
-                    <div class="w-80px h-80px rounded-full">
-                        <image class="wh-full" mode="aspectFill" :src='chatAvatarUrl' />
-                    </div>
-                    <div class="~ ml-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
-                        <p class="text-30px">{{ answer.title }}</p>
-                        <template v-if="answer.questions">
-                            <p class="text-30px  p-10px" :class="{ 'primary-color': question.isLink }"
-                                @click="ask(question)" v-for="question in answer.questions">{{ question.title }}</p>
-                        </template>
-                    </div>
-                </div>
+                </scroll-view>
             </div>
 
+
+            <nut-cell style="margin:0">
+                <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary"
+                    style="width:80%;margin: 0 auto;" @click="confirm">联系久心售后</nut-button>
+            </nut-cell>
         </div>
+
     </page-layout>
 </template>
   
 <script setup lang="ts">
-import Taro, { requirePlugin, useDidShow } from '@tarojs/taro';
-import { useAuthStore } from '~/store/auth';
+import Taro, { useDidShow, useReady } from '@tarojs/taro';
 import { questionList } from '.';
-const plugin = requirePlugin("chatbot");
-const auth = useAuthStore()
-const authInfo = computed(() => auth.authInfo)
 const chatAvatarUrl = 'https://res.wx.qq.com/mmspraiweb_node/dist/static/openaiplugin/img/answerImage.png'
 const avatarUrl = ref(Taro.getStorageSync('avatarUrl') || '')
-
+const scrollTop = ref(0)
 useDidShow(async () => {
-    // const signRes = await Taro.request({
-    //     url: 'https://chatbot.weixin.qq.com/openapi/sign/U6gQND4LC750OBNab9HdMFdfd3PSMt',
-    //     method: 'POST',
-    //     data: {
-    //         userid: '123'
-    //     }
-    // })
-    // signature.value = signRes.data.signature
     const accountInfo = await Taro.getAccountInfoSync();
     avatarUrl.value = Taro.getStorageSync('avatarUrl')
     console.log(accountInfo)
-    if (authInfo.value.openid) {
-        plugin.init({
-            appid: "U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
-            openid: authInfo.value.openid, // 小程序用户的openid，必填项
-            welcome: "",
-            background: "#eee",
-            guideList: [],
-            guideCardHeight: 50,
-            operateCardHeight: 42,
-            navHeight: 88, // 自定义导航栏高度
-            robotHeader:
-                "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",
-            userHeader:
-                "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/rightHeader.png",
-            userName: "",
-            success: () => {
-            },
-            fail: () => { },
-        });
-        const chat = plugin.getChatComponent()
-        chat.setGuideList(['AED使用', 'AED安装'])
-    }
+    Taro.nextTick(() => {
+        // 使用 Taro.nextTick 模拟 setData 已结束，节点已完成渲染
+        Taro.createSelectorQuery().select('#scrollViewRef').boundingClientRect((rect) => {
+            console.log(rect)
+            Taro.pageScrollTo({
+                scrollTop: rect.bottom
+            })
+        }).exec()
+    })
+
 })
 
 const historyList = ref([{
@@ -87,29 +73,37 @@ const historyList = ref([{
     }, {
         title: '您可能问的问题：',
         questions: [{
-            title: 'AED知识',
+            title: '什么是AED?',
             isLink: true,
         }, {
-            title: 'AED使用',
+            title: '什么情况下可以使用AED？',
             isLink: true,
         }, {
-            title: 'AED售后',
+            title: '如何使用AED？',
             isLink: true,
         }, {
-            title: 'AED配件',
+            title: '儿童可以使用AED么？',
             isLink: true,
         }, {
-            title: '机箱配件',
+            title: '为什么要布防（准备）AED?',
+            isLink: true,
+        }, {
+            title: 'AED存放应注意什么？',
             isLink: true,
         }]
     }],
     ask: ''
 }])
+const confirm = () => {
+    Taro.makePhoneCall({
+        phoneNumber: '400-820-9952'
+    })
+}
 function ask(question: { title: string, isLink: boolean }) {
     if (question.title.includes('400-820-9952')) {
         Taro.makePhoneCall({
             phoneNumber: '400-820-9952'
-        })  
+        })
     }
     if (!question.isLink) return;
     let answer = findAnswer(questionList, question.title)
@@ -117,7 +111,15 @@ function ask(question: { title: string, isLink: boolean }) {
         answer,
         ask: question.title
     })
+    Taro.createSelectorQuery().select('#scrollViewRef').boundingClientRect((rect) => {
+        console.log(rect)
+        // Taro.pageScrollTo({
+        //     scrollTop: rect.bottom
+        // })
+        scrollTop.value = historyList.value.length * 272
+    }).exec()
 }
+
 function findAnswer(data: any, title: string) {
     let answer;
     let len = data.filter(v => v.title === title).length
