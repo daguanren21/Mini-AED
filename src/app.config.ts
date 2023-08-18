@@ -6,8 +6,14 @@ export default defineAppConfig({
     'pages/feed-back/index',
     'pages/systemInfo/index',
     'pages/guide-detail/index',
-
+    'pages/wifiConfig/index',
+    'pages/softAp/index',
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置将用于家庭急救宝"
+    }
+  },
   "plugins": {
     "chatbot": {
       "version": "1.3.7",

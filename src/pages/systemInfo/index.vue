@@ -3,7 +3,7 @@
         <view class="header">
             <image src="../../assets/images/jx-logo.svg"></image>
             <view class="title">久心急救</view>
-            <view class="version">V1.0.0</view>
+            <view class="version">V1.0.1</view>
         </view>
         <view class="at-article">
             <view class="at-article__content">

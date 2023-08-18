@@ -27,7 +27,7 @@
                     <IconFont color="#fa2c19" font-class-name="iconfont" class-prefix="icon" name="wentifankui" size="24" />
                 </template>
             </nut-cell> -->
-            <nut-cell @click="toPage('systemInfo')" class="border-b-1px border-b-solid b-hex-ededed" desc="V1.0.0"
+            <nut-cell @click="toPage('systemInfo')" class="border-b-1px border-b-solid b-hex-ededed" desc="V1.0.1"
                 title="关于系统" is-link>
                 <template v-slot:icon>
                     <IconFont color="#1890ff" font-class-name="iconfont" class-prefix="icon" name="guanyuwomen" size="24" />

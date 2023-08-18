@@ -1,3 +1,5 @@
 export default definePageConfig({
-    navigationBarTitleText:'操作指南详情'
+    navigationBarTitleText:'操作指南详情',
+    enableShareAppMessage: true,
+    enableShareTimeline:true
 })

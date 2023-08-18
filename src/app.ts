@@ -27,17 +27,23 @@ const parseDeviceSnFromUrl = url => {
 }
 const App = createApp({
   async onLaunch() {
-    const auth = useAuthStore()
+
+
+  },
+  async onShow() {
     let options = getCurrentInstance().router?.params
-    console.log('设备编号：',options.q)
+    const auth = useAuthStore()
+    console.log('设备编号：', options?.q)
+    auth.$reset()
     if (options && options.q) {
       const decodedUri = decodeURIComponent(options.q as string);
       let deviceSn = parseDeviceSnFromUrl(decodedUri)
-      console.log('设备编号：',deviceSn)
+      console.log('设备编号：', deviceSn)
       if (deviceSn) {
         auth.deviceSn = deviceSn
       }
     }
+    console.log('切换tab名称', auth.tabName)
     let wxLoginRes = await Taro.login();
     const accountInfo = await Taro.getAccountInfoSync();
     const res = await wxLogin({
@@ -45,28 +51,7 @@ const App = createApp({
       code: wxLoginRes.code
     })
     auth.updateAuthInfo(res)
-    if (res.openid) {
-      plugin.init({
-        appid: "U6gQND4LC750OBNab9HdMFdfd3PSMt", //微信对话开放平台小程序插件appid
-        openid: res.openid, // 小程序用户的openid，必填项
-        welcome: "",
-        background: "#eee",
-        guideList: ['AED使用', 'AED安装'],
-        guideCardHeight: 50,
-        operateCardHeight: 42,
-        navHeight: 88, // 自定义导航栏高度
-        robotHeader:
-          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/leftHeader.png",
-        userHeader:
-          "https://res.wx.qq.com/mmspraiweb_node/dist/static/miniprogrampageImages/talk/rightHeader.png",
-        userName: "",
-        success: () => {
-        },
-        fail: () => { },
-      });
-    }
-
-  },
+  }
   // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 })
 App.use(pinia)

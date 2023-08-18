@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nut-tabbar @tab-switch="tabSwitch" v-model="activeTab" class="w-full">
+        <nut-tabbar @tab-switch="tabSwitch" :model-value="activeTab" class="w-full">
             <nut-tabbar-item name="guide" tab-title="操作指南">
                 <template #icon>
                     <Find></Find>
@@ -24,24 +24,21 @@ import Taro from '@tarojs/taro'
 import { IconFont } from '@nutui/icons-vue-taro';
 import { Find, My } from '@nutui/icons-vue-taro';
 import { useAuthStore } from '~/store/auth';
+import { storeToRefs } from 'pinia';
 defineOptions({
     name: 'JxTabBar'
 })
 const auth = useAuthStore()
-
-const activeTab = computed({
-    get() {
-        return auth.tabName
-    },
-    set(value) {
-        auth.updateTabName(value)
-        return true
-    }
+const activeTab = ref('guide')
+watch(() => auth.tabName, (value) => {
+    activeTab.value = value
+    console.log('11111111', activeTab.value)
+},{
+    immediate:true
 })
-
 function tabSwitch(item, index) {
-    console.log(item, index);
-    auth.updateTabName(item.name)
+    activeTab.value = index
+    auth.updateTabName(index)
     Taro.switchTab({
         url: `/pages/${item.name}/index`
     })

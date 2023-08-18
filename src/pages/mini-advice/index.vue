@@ -24,7 +24,7 @@
                                 <image class="wh-full" mode="aspectFill" :src='chatAvatarUrl' />
                             </div>
                             <div class="~ ml-10px rounded-15px max-w-500px bg-hex-ffffff  shadow-lg b-1px p-20px">
-                                <p class="text-30px">{{ answer.title }}</p>
+                                <p class="text-30px text-hex-ee0a24">{{ answer.title }}</p>
                                 <template v-if="answer.questions">
                                     <p class="text-30px  p-10px" :class="{ 'primary-color': question.isLink }"
                                         @click="ask(question)" v-for="question in answer.questions">{{ question.title }}</p>
@@ -35,10 +35,16 @@
                 </scroll-view>
             </div>
 
-
+            <scroll-view v-show="questionShow" :scroll-x="true" style="width:100%;white-space: nowrap">
+                <view @tap="ask(item)" style="max-width:50%;display: inline-block;text-align: center;"
+                    class="text-28px m-x-16px h-45px w-full mb-15px flex-y-center line-height-45px bg-hex-ee0a24 text-hex-fff"
+                    v-for="item in _questionList">
+                    {{ item.title }}
+                </view>
+            </scroll-view>
             <nut-cell style="margin:0">
                 <nut-button color="linear-gradient(to right, #ff6034, #ee0a24)" type="primary"
-                    style="width:80%;margin: 0 auto;" @click="confirm">联系久心售后</nut-button>
+                    style="width:80%;margin: 0 auto;" @click="confirm">联系售后</nut-button>
             </nut-cell>
         </div>
 
@@ -46,11 +52,12 @@
 </template>
   
 <script setup lang="ts">
-import Taro, { useDidShow, useReady } from '@tarojs/taro';
+import Taro, { useDidShow } from '@tarojs/taro';
 import { questionList } from '.';
 const chatAvatarUrl = 'https://res.wx.qq.com/mmspraiweb_node/dist/static/openaiplugin/img/answerImage.png'
 const avatarUrl = ref(Taro.getStorageSync('avatarUrl') || '')
 const scrollTop = ref(0)
+const questionShow = ref(false)
 useDidShow(async () => {
     const accountInfo = await Taro.getAccountInfoSync();
     avatarUrl.value = Taro.getStorageSync('avatarUrl')
@@ -66,7 +73,25 @@ useDidShow(async () => {
     })
 
 })
-
+let _questionList = ref([{
+    title: '什么是AED?',
+    isLink: true,
+}, {
+    title: '什么情况下可以使用AED？',
+    isLink: true,
+}, {
+    title: '如何使用AED？',
+    isLink: true,
+}, {
+    title: '儿童可以使用AED么？',
+    isLink: true,
+}, {
+    title: '为什么要布防（准备）AED?',
+    isLink: true,
+}, {
+    title: 'AED存放应注意什么？',
+    isLink: true,
+}])
 const historyList = ref([{
     answer: [{
         title: '您好，我是久心助手请问您有什么需要帮助的么？'
@@ -100,6 +125,7 @@ const confirm = () => {
     })
 }
 function ask(question: { title: string, isLink: boolean }) {
+    questionShow.value=true
     if (question.title.includes('400-820-9952')) {
         Taro.makePhoneCall({
             phoneNumber: '400-820-9952'
