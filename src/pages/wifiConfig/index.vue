@@ -1,13 +1,13 @@
 <template>
     <div class="wifi">
         <div class="content flex">
-            <nut-button class="btn" @click="isOpened = true"  type="primary">开始配网</nut-button>
             <nut-dialog v-model:visible="isOpened" @close="isOpened = false" title="注意事项">
                 <div class="prompt text-left">
-                    <view class="prompt-desc">1. 手机WIFI已连接</view>
-                    <view class="prompt-desc">2. 手机已给微信授权获取WiFi信息</view>
-                    <view class="prompt-desc">3. Android 6.0 以上版本已开启定位</view>
-                    <view class="prompt-desc">4. 确保连接的WiFi不是5G网络</view>
+                    <view class="prompt-desc">1. 确保设备网络配置为Wifi</view>
+                    <view class="prompt-desc">2. 手机WIFI已连接</view>
+                    <view class="prompt-desc">3. 手机已给微信授权获取WiFi信息</view>
+                    <view class="prompt-desc">4. Android 6.0 以上版本已开启定位</view>
+                    <view class="prompt-desc">5. 确保连接的WiFi不是5G网络</view>
                 </div>
                 <template #footer>
                     <nut-button @click="methods.addConfig" plain type="primary">扫描二维码</nut-button>
@@ -19,16 +19,23 @@
 
 <script setup lang="ts">
 import Taro from '@tarojs/taro';
-import { isJSON, showModal, showToast } from "~/utils/index"
-const isOpened = ref(false)
+import { isJSON, parseDeviceSnFromUrl, showModal, showToast } from "~/utils/index"
+const isOpened = ref(true)
 const methods = reactive({
     addConfig: async function () {
         let { result } = await Taro.scanCode({});
-        if (!isJSON(result)) {
-            showToast("二维码格式错误,请检查并重新扫描设备二维码");
+        console.log(result)
+        let params = parseDeviceSnFromUrl(result)
+        console.log(params)
+        if (!isJSON(params.config)) {
+            Taro.showToast({
+                title: '二维码格式错误,请检查并重新扫描设备二维码',
+                icon: 'none',
+                duration: 5000
+            })
             return;
         }
-        let code: any = JSON.parse(result);
+        let code: any = JSON.parse(params.config);
         if (code.name) {
             Taro.navigateTo({
                 url: "/pages/softAp/index",

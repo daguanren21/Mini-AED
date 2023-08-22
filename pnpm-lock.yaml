@@ -15,8 +15,8 @@ dependencies:
     specifier: ^0.0.9
     version: 0.0.9
   '@nutui/nutui-taro':
-    specifier: ^4.0.4
-    version: 4.0.4(unplugin-vue-components@0.23.0)
+    specifier: ^4.0.5
+    version: 4.0.5(unplugin-vue-components@0.23.0)
   '@tarojs/components':
     specifier: 3.6.1
     version: 3.6.1(vue@3.3.4)
@@ -3146,8 +3146,8 @@ packages:
     resolution: {integrity: sha512-10VYAtFC+o1X0anGs+y2PgF1NWMeLFz2JVMRw4BWLg6wbtVbYy9wukLxyGhZC6Yf6t39DcwaGVda8paV7K6/Ew==}
     dev: false
 
-  /@nutui/nutui-taro@4.0.4(unplugin-vue-components@0.23.0):
-    resolution: {integrity: sha512-v9XyXidgiRgZTH5JofgjhJTGGvQDXhOqkLb/uRjlR2c9eQBSU653rlTO82VjUWOpCterYDxtqXswUZIf+PRbfQ==}
+  /@nutui/nutui-taro@4.0.5(unplugin-vue-components@0.23.0):
+    resolution: {integrity: sha512-j7+fKtRarfphYJ0uosdalIWvf3k2+x8eDsmBSSnPDyGEeRHtXqGIw8MIxy8wL5UUnADP+6JVK339vC28oo436g==}
     peerDependencies:
       unplugin-vue-components: ^0.23.0
     peerDependenciesMeta:
@@ -4138,7 +4138,7 @@ packages:
     resolution: {integrity: sha512-jn7qwGFmJHwUSphV8zZneO3GmtlgLsmhs/LQyVvQbIIa+fzGMUiHI4HXJZL3FT8MJmgXWbLGiVVY7ElvHq6vDA==}
     deprecated: This is a stub types definition. sass provides its own type definitions, so you do not need this installed.
     dependencies:
-      sass: 1.50.0
+      sass: 1.62.1
 
   /@types/send@0.17.1:
     resolution: {integrity: sha512-Cwo8LE/0rnvX7kIIa3QHCkcuF21c05Ayb0ZfxPiv0W8VRiZiNW/WuRupHKpqqGVGf7SUA44QSOUKaEd9lIrd/Q==}
@@ -13773,6 +13773,7 @@ packages:
       chokidar: 3.5.3
       immutable: 4.3.0
       source-map-js: 1.0.2
+    dev: true
 
   /sass@1.62.1:
     resolution: {integrity: sha512-NHpxIzN29MXvWiuswfc1W3I0N8SXBd8UR26WntmDlRYf0bSADnwnOjsyMZ3lMezSlArD33Vs3YFhp7dWvL770A==}
@@ -13842,7 +13843,7 @@ packages:
       loglevel: 1.8.1
       loglevel-plugin-prefix: 0.8.4
       pretty-bytes: 5.6.0
-      sass: 1.50.0
+      sass: 1.62.1
       tslib: 1.14.1
 
   /scss-parser@1.0.6:

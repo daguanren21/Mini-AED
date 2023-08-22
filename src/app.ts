@@ -5,26 +5,10 @@ import Taro, { getCurrentInstance, requirePlugin } from '@tarojs/taro'
 import { createPinia } from 'pinia'
 import { useAuthStore } from './store/auth'
 import { wxLogin } from './request/api/login';
+import { parseDeviceSnFromUrl } from './utils';
 const pinia = createPinia()
 const plugin = requirePlugin("chatbot");
-const parseDeviceSnFromUrl = url => {
-  if (!url) {
-    return ''
-  }
-  let parameterStrIndex = url.indexOf("?")
-  if (parameterStrIndex == -1) {
-    return ''
-  }
-  let parameterStr = url.substring(parameterStrIndex + 1)
-  let parameterArr = parameterStr.split("&")
-  if (parameterArr.length <= 0) {
-    return ''
-  }
-  if (parameterArr[0].indexOf('SN=') == -1) {
-    return ''
-  }
-  return (parameterArr[0].split('='))[1]
-}
+
 const App = createApp({
   async onLaunch() {
 
@@ -37,13 +21,17 @@ const App = createApp({
     auth.$reset()
     if (options && options.q) {
       const decodedUri = decodeURIComponent(options.q as string);
-      let deviceSn = parseDeviceSnFromUrl(decodedUri)
-      console.log('设备编号：', deviceSn)
-      if (deviceSn) {
-        auth.deviceSn = deviceSn
+      let params = parseDeviceSnFromUrl(decodedUri)
+      console.log('设备编号：', params.device, params.config)
+      if (params.device) {
+        auth.deviceSn = params.device
+      }
+      if (params.config) {
+        auth.config = params.config
       }
     }
     console.log('切换tab名称', auth.tabName)
+    Taro.showLoading({ title: '数据加载中', mask: true })
     let wxLoginRes = await Taro.login();
     const accountInfo = await Taro.getAccountInfoSync();
     const res = await wxLogin({
@@ -51,8 +39,11 @@ const App = createApp({
       code: wxLoginRes.code
     })
     auth.updateAuthInfo(res)
+    Taro.hideLoading()
   }
   // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 })
 App.use(pinia)
 export default App
+
+

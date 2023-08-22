@@ -75,7 +75,10 @@ page{
       height: 60px;
     }
   }
+.nut-cell__title{
+    width:auto !important;
+}
 
-  .nut-cell-group .nut-cell::after{
+.nut-cell-group .nut-cell::after{
     border-bottom:none !important;
 }

@@ -61,7 +61,7 @@ import { GuideInfo, bindMiniAed, oneKeyForLogin } from '~/request/api/login';
 import { fetchOperateGuide } from '~/request/api/login';
 import { useAuthStore } from '~/store/auth';
 const auth = useAuthStore()
-const { authInfo, deviceSn } = storeToRefs(auth)
+const { authInfo, deviceSn, config } = storeToRefs(auth)
 const { state, openToast } = useToast()
 function toPage(id: number) {
     Taro.navigateTo({
@@ -69,9 +69,24 @@ function toPage(id: number) {
     })
 }
 const toWifiConfig = () => {
-    Taro.navigateTo({
-        url: "/pages/wifiConfig/index"
-    })
+    console.log("config:",config.value)
+    let name = config.value ? JSON.parse(config.value).name : ''
+    console.log("name:", name)
+    if (name) {
+        Taro.navigateTo({
+            url: "/pages/softAp/index",
+            success: function (res) {
+                res.eventChannel.emit("dataFromWifiConfig", {
+                    name: name,
+                });
+            },
+        });
+    } else {
+        Taro.navigateTo({
+            url: "/pages/wifiConfig/index"
+        })
+    }
+
 }
 let guideList = ref<GuideInfo[]>([])
 useDidShow(async () => {
@@ -124,12 +139,7 @@ watch(() => auth.authInfo.id_token, (val) => {
 }, {
     deep: true
 })
-// watch(() => auth.isRead, (val) => {
-//     debugger
-//     useTip.show = !val
-// }, {
-//     immediate: true
-// })
+
 watchEffect(async () => {
     if (authInfo.value.phoneNumber && deviceSn.value) {
         await bindMiniAed({

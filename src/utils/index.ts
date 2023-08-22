@@ -5,7 +5,8 @@ type toastIcon = "none" | "success" | "loading"
 export const showToast = (msg, icon: toastIcon = 'none') => {
   Taro.showToast({
     title: msg,
-    icon
+    icon,
+    duration:4000
   })
 }
 //确认moodal
@@ -98,4 +99,69 @@ export const wifiErrMsg = (errCode, errMsg?) => {
       break;
   }
   return text;
+}
+
+export const parseDeviceSnFromUrl = url => {
+  if (!url) {
+    return {
+      device: '',
+      config: ''
+    }
+  }
+  let parameterStrIndex = url.indexOf("?")
+  if (parameterStrIndex == -1) {
+    return {
+      device: '',
+      config: ''
+    }
+  }
+  let parameterStr = url.substring(parameterStrIndex + 1)
+  let parameterArr = parameterStr.split("&")
+  if (parameterArr.length <= 0) {
+    return {
+      device: '',
+      config: ''
+    }
+  }
+  if (parameterArr.length === 1) {
+    if (parameterArr[0].indexOf('SN=') == -1) {
+      return {
+        device: '',
+        config: ''
+      }
+    } else {
+      return {
+        device: (parameterArr[0].split('='))[1],
+        config: ''
+      }
+    }
+  }
+  if (parameterArr.length >= 2) {
+    if (parameterArr[0].indexOf('SN=') == -1 && parameterArr[1].indexOf('CONFIG=') !== -1) {
+      return {
+        device: '',
+        config: (parameterArr[1].split('='))[1]
+      }
+    }
+    if (parameterArr[0].indexOf('SN=') !== -1 && parameterArr[1].indexOf('CONFIG=') === -1) {
+      return {
+        device: (parameterArr[0].split('='))[1],
+        config: ''
+      }
+    }
+    if (parameterArr[0].indexOf('SN=') === -1 && parameterArr[1].indexOf('CONFIG=') === -1) {
+      return {
+        device: '',
+        config: ''
+      }
+    }
+    return {
+      device: (parameterArr[0].split('='))[1],
+      config: (parameterArr[1].split('='))[1]
+    }
+  }
+  return {
+    device: '',
+    config: ''
+  }
 }

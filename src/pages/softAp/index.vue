@@ -7,8 +7,8 @@
         <view class="wifi_content">
             <nut-form>
                 <nut-form-item label="WIFI">
-                    <nut-input class="nut-input-text" v-model="state.currentWifi.SSID" readonly @click="showWifiList"
-                        placeholder="请选择Wifi" type="text" />
+                    <nut-input class="nut-input-text" v-model="state.currentWifi.SSID" @click="showWifiList"
+                        placeholder="请选择Wifi"  :readonly="true" />
                 </nut-form-item>
                 <nut-form-item label="密码">
                     <nut-input type="password" v-model="state.currentWifi.password" class="nut-input-text"
@@ -113,7 +113,7 @@ const state = reactive({
     },
 
 })
-const showWifiList = () => {
+function showWifiList() {
     console.log('wifiListCCCC', state.wifiList)
     if (state.wifiList[0].BSSID == "") {
         getWifiListWay();
